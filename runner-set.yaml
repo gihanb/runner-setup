@@ -1,0 +1,21 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: test-runner
+  namespace: actions-runner-system
+  labels:
+    runner: test-runner
+spec:
+  replicas: 1
+  template:
+    spec:
+      repository: gihanb/test-app
+      containerMode: kubernetes
+      serviceAccountName: github-actions-sa
+      workVolumeClaimTemplate:
+        storageClassName: "hostpath"
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
